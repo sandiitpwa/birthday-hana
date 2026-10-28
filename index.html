@@ -7,7 +7,15 @@
 <title>Hana Birthday System</title>
 
 <style>
-:root{--bg:#071426;--panel:rgba(14,31,55,.86);--blue:#48d7ff;--green:#8cffc1;--text:#eef8ff;--muted:#9db4c9}
+:root{
+  --bg:#071426;
+  --panel:rgba(14,31,55,.86);
+  --blue:#48d7ff;
+  --green:#8cffc1;
+  --text:#eef8ff;
+  --muted:#9db4c9
+}
+
 *{box-sizing:border-box}
 
 body{
@@ -16,7 +24,12 @@ body{
   display:grid;
   place-items:center;
   padding:22px;
-  background:radial-gradient(ellipse at top,#123d65 0%,#071426 55%,#030811 100%);
+  background:radial-gradient(
+    ellipse at top,
+    #123d65 0%,
+    #071426 55%,
+    #030811 100%
+  );
   color:var(--text);
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   overflow-x:hidden
@@ -42,7 +55,9 @@ body:before{
   border:1px solid rgba(72,215,255,.38);
   border-radius:24px;
   background:var(--panel);
-  box-shadow:0 0 45px rgba(23,157,255,.14),inset 0 0 28px rgba(72,215,255,.035);
+  box-shadow:
+    0 0 45px rgba(23,157,255,.14),
+    inset 0 0 28px rgba(72,215,255,.035);
   backdrop-filter:blur(12px);
   text-align:center
 }
@@ -96,10 +111,18 @@ h1 span{
 }
 
 /* FOTO HANA */
-.foto-hana{
+.foto-wrapper{
+  position:relative;
   width:180px;
-  height:180px;
   max-width:65%;
+  margin:4px auto 22px;
+  isolation:isolate
+}
+
+.foto-hana{
+  width:100%;
+  height:auto;
+  aspect-ratio:1/1;
   object-fit:cover;
   object-position:center;
   border-radius:50%;
@@ -107,8 +130,9 @@ h1 span{
   padding:5px;
   background:rgba(72,215,255,.08);
   box-shadow:0 0 20px rgba(72,215,255,.35);
-  margin:4px auto 22px;
   display:block;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
   transition:transform .3s,box-shadow .3s
 }
 
@@ -117,6 +141,46 @@ h1 span{
   box-shadow:0 0 30px rgba(72,215,255,.6)
 }
 
+.foto-hana:active{
+  transform:scale(.94)
+}
+
+/* EMOJI KETAWA */
+.emoji-ketawa{
+  position:absolute;
+  left:50%;
+  top:45%;
+  z-index:10;
+  pointer-events:none;
+  user-select:none;
+  font-size:30px;
+  line-height:1;
+  animation:emojiTerbang 1.4s ease-out forwards;
+  will-change:transform,opacity
+}
+
+@keyframes emojiTerbang{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-20%) scale(.3) rotate(0deg)
+  }
+  15%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1.2) rotate(-10deg)
+  }
+  100%{
+    opacity:0;
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        var(--y)
+      )
+      scale(.7)
+      rotate(var(--rotate))
+  }
+}
+
+/* TERMINAL */
 .terminal{
   text-align:left;
   border:1px solid rgba(157,180,201,.18);
@@ -132,6 +196,7 @@ h1 span{
 .terminal .dim{color:#7796ad}
 .terminal .ok{color:var(--green)}
 
+/* BUTTON */
 button{
   appearance:none;
   border:0;
@@ -151,6 +216,13 @@ button{
 button:active{transform:scale(.98)}
 button:hover{filter:brightness(1.07)}
 
+button:focus-visible,
+.foto-hana:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:5px
+}
+
+/* UCAPAN ULANG TAHUN */
 .message{
   display:none;
   animation:appear .7s ease both
@@ -189,6 +261,7 @@ footer{
   letter-spacing:.3px
 }
 
+/* CONFETTI */
 #confetti{
   position:fixed;
   inset:0;
@@ -200,21 +273,29 @@ footer{
 
 .hidden{display:none!important}
 
+/* ANIMASI */
 @keyframes bob{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-8px)}
 }
 
 @keyframes appear{
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(12px)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)
+  }
 }
 
+/* RESPONSIVE */
 @media(max-width:390px){
   .card{padding:23px 17px}
   .icon{font-size:52px}
   .terminal{font-size:11px}
-  .foto-hana{width:155px;height:155px}
+  .foto-wrapper{width:155px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -227,9 +308,11 @@ footer{
 </head>
 
 <body>
-<canvas id="confetti"></canvas>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
 
 <main class="card">
+
   <div class="badge">
     <span class="dot"></span>
     STATUS SISTEM: AKTIF
@@ -238,36 +321,84 @@ footer{
   <div class="icon" aria-hidden="true">🎂</div>
 
   <div id="intro">
-    <h1>Birthday <span>System.exe</span></h1>
+
+    <h1>BIRTHDAY <span>SYSTEM</span></h1>
 
     <p class="sub">
       Selamat Ulang Tahun <b>Hana</b> 🎉🎉🎉
     </p>
 
-    <!-- FOTO HANA -->
-    <img
-      src="images/hana.jpeg"
-      alt="Foto Hana"
-      class="foto-hana"
-      loading="eager"
-    >
+    <!-- FOTO HANA: KLIK UNTUK MEMUNCULKAN EMOJI -->
+    <div class="foto-wrapper">
 
-    <div class="terminal">
-      <div><span class="dim">pengguna@ulangtahun:~$</span> cari hana.exe</div>
-      <div>Mencari pemilik hari ini... <span class="ok">DITEMUKAN ✓</span></div>
-      <div>Memuat modul kebahagiaan... <span class="ok">100%</span></div>
-      <div>Bad mood.exe ... <span class="ok">ERROR 404: TIDAK DITEMUKAN</span></div>
-      <div>Overthinking.exe ... <span class="ok">SAATNYA ISTIRAHAT 😆</span></div>
-      <div><span class="dim">sistem</span> <span class="ok">Kejutan siap diluncurkan!</span></div>
+      <img
+        src="images/hana.jpeg"
+        alt="Foto Hana"
+        class="foto-hana"
+        id="fotoHana"
+        loading="eager"
+        title="Klik fotonya kalau berani 😂"
+        role="button"
+        tabindex="0"
+        aria-label="Klik foto Hana untuk memunculkan emoji ketawa"
+      >
+
     </div>
 
-    <button id="openBtn">OPEN CELEBRATE 🎉</button>
+    <div class="terminal">
+
+      <div>
+        <span class="dim">pengguna@ulangtahun:~$</span>
+        cari hana.exe
+      </div>
+
+      <div>
+        Mencari pemilik hari ini...
+        <span class="ok">DITEMUKAN ✓</span>
+      </div>
+
+      <div>
+        Memuat modul kebahagiaan...
+        <span class="ok">100%</span>
+      </div>
+
+      <div>
+        Bad mood.exe ...
+        <span class="ok">ERROR 404: TIDAK DITEMUKAN</span>
+      </div>
+
+      <div>
+        Overthinking.exe ...
+        <span class="ok">SAATNYA ISTIRAHAT 😆</span>
+      </div>
+
+      <div>
+        <span class="dim">sistem</span>
+        <span class="ok">Kejutan siap diluncurkan!</span>
+      </div>
+
+    </div>
+
+    <button id="openBtn">
+      OPEN CELEBRATE 🎉
+    </button>
+
   </div>
 
-  <section id="message" class="message" aria-live="polite">
-    <h1>SELAMAT <span>ULANG TAHUN, HANA!</span> 🎉</h1>
+  <!-- PESAN KEJUTAN -->
+  <section
+    id="message"
+    class="message"
+    aria-live="polite"
+  >
 
-    <p class="big">Life Level increased by one, Hana! ✨</p>
+    <h1>
+      SELAMAT <span>ULANG TAHUN, HANA!</span> 🎉
+    </h1>
+
+    <p class="big">
+      Life Level increased by one, Hana! ✨
+    </p>
 
     <p>
       Selamat ulang tahun, Hana! 🥳
@@ -276,18 +407,43 @@ footer{
     </p>
 
     <p>
-      Semoga apa yang kamu harapkan bisa segera terwujud,
-      makin banyak bahagianya, dan makin sedikit drama hidupnya.
+      Semoga apa yang kamu harapkan segera terwujud,
+      makin banyak bahagianya, makin sedikit drama hidupnya.
       Wkwkwk 😂
     </p>
 
     <div class="terminal">
-      <div>Kesehatan.exe <span class="ok">BERJALAN ✓</span></div>
-      <div>Kebahagiaan.exe <span class="ok">TANPA BATAS ✓</span></div>
-      <div>Keberuntungan.exe <span class="ok">DITINGKATKAN ✓</span></div>
-      <div>Kesedihan.exe <span class="ok">DIMINIMALKAN ✓</span></div>
-      <div>Kenangan indah.exe <span class="ok">SEDANG DIMUAT... 😂</span></div>
-      <div>Babak baru Hana <span class="ok">DIAKTIFKAN ✓</span></div>
+
+      <div>
+        Kesehatan.exe
+        <span class="ok">BERJALAN ✓</span>
+      </div>
+
+      <div>
+        Kebahagiaan.exe
+        <span class="ok">TANPA BATAS ✓</span>
+      </div>
+
+      <div>
+        Keberuntungan.exe
+        <span class="ok">DITINGKATKAN ✓</span>
+      </div>
+
+      <div>
+        Kesedihan.exe
+        <span class="ok">DIMINIMALKAN ✓</span>
+      </div>
+
+      <div>
+        Kenangan indah.exe
+        <span class="ok">SEDANG DIMUAT...</span>
+      </div>
+
+      <div>
+        Babak baru Hana
+        <span class="ok">DIAKTIFKAN ✓</span>
+      </div>
+
     </div>
 
     <p class="signature">
@@ -295,86 +451,190 @@ footer{
       Semoga tahun ini menjadi salah satu tahun terbaik dalam hidupmu. ✨
     </p>
 
-    <button id="againBtn">CELEBRATE AGAIN ✨</button>
+    <button id="againBtn">
+      CELEBRATE AGAIN ✨
+    </button>
+
   </section>
 
   <footer>Design by OmomStiker</footer>
-  <div class="secret-note">Jangan kasih tahu Tante Shifa 😂🤫</div>
+
+  <div class="secret-note"></div>
+
 </main>
 
 <script>
-const canvas=document.getElementById('confetti');
-const ctx=canvas.getContext('2d');
+/* =================================
+   CONFETTI ULANG TAHUN
+================================= */
 
-let pieces=[],raf=null;
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+
+let pieces = [];
+let raf = null;
 
 function resize(){
-  const dpr=window.devicePixelRatio||1;
+  const dpr = window.devicePixelRatio || 1;
 
-  canvas.width=window.innerWidth*dpr;
-  canvas.height=window.innerHeight*dpr;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
 
-  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-window.addEventListener('resize',resize);
+window.addEventListener('resize', resize);
 resize();
 
 function celebrate(){
-  pieces=Array.from({length:150},()=>({
-    x:Math.random()*window.innerWidth,
-    y:-20-Math.random()*window.innerHeight*.5,
-    w:4+Math.random()*6,
-    h:7+Math.random()*8,
-    vx:(Math.random()-.5)*3,
-    vy:2+Math.random()*4,
-    r:Math.random()*Math.PI*2,
-    vr:(Math.random()-.5)*.16,
-    c:['#48d7ff','#8cffc1','#fff1a8','#ff8bd1','#ffffff']
-      [Math.floor(Math.random()*5)]
+
+  pieces = Array.from({length:150}, () => ({
+    x:Math.random() * window.innerWidth,
+    y:-20 - Math.random() * window.innerHeight * .5,
+    w:4 + Math.random() * 6,
+    h:7 + Math.random() * 8,
+    vx:(Math.random() - .5) * 3,
+    vy:2 + Math.random() * 4,
+    r:Math.random() * Math.PI * 2,
+    vr:(Math.random() - .5) * .16,
+    c:[
+      '#48d7ff',
+      '#8cffc1',
+      '#fff1a8',
+      '#ff8bd1',
+      '#ffffff'
+    ][Math.floor(Math.random() * 5)]
   }));
 
-  if(raf)cancelAnimationFrame(raf);
+  if(raf) cancelAnimationFrame(raf);
 
-  let frames=0;
+  let frames = 0;
 
   function draw(){
-    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
 
-    pieces.forEach(p=>{
-      p.x+=p.vx;
-      p.y+=p.vy;
-      p.r+=p.vr;
+    ctx.clearRect(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight
+    );
+
+    pieces.forEach(p => {
+
+      p.x += p.vx;
+      p.y += p.vy;
+      p.r += p.vr;
 
       ctx.save();
-      ctx.translate(p.x,p.y);
+      ctx.translate(p.x, p.y);
       ctx.rotate(p.r);
-      ctx.fillStyle=p.c;
-      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
       ctx.restore();
+
     });
 
-    pieces=pieces.filter(p=>p.y<window.innerHeight+30);
+    pieces = pieces.filter(
+      p => p.y < window.innerHeight + 30
+    );
+
     frames++;
 
-    if(pieces.length&&frames<260){
-      raf=requestAnimationFrame(draw);
+    if(pieces.length && frames < 260){
+      raf = requestAnimationFrame(draw);
     }else{
-      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-      raf=null;
+      ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+      raf = null;
     }
+
   }
 
   draw();
 }
 
-document.getElementById('openBtn').addEventListener('click',()=>{
-  document.getElementById('intro').classList.add('hidden');
-  document.getElementById('message').classList.add('show');
-  celebrate();
+/* =================================
+   EFEK EMOJI KETAWA PADA FOTO HANA
+================================= */
+
+const fotoHana = document.getElementById('fotoHana');
+const fotoWrapper = document.querySelector('.foto-wrapper');
+
+function ketawakanHana(){
+
+  const emojis = ['😂', '🤣', '😆', '😹', '🤭'];
+
+  // Delapan emoji setiap kali foto diklik
+  for(let i = 0; i < 8; i++){
+
+    const emoji = document.createElement('span');
+
+    emoji.className = 'emoji-ketawa';
+
+    emoji.textContent =
+      emojis[Math.floor(Math.random() * emojis.length)];
+
+    // Sebaran emoji ke berbagai arah
+    const x = (Math.random() - .5) * 240;
+    const y = -(50 + Math.random() * 150);
+    const rotate = (Math.random() - .5) * 100;
+
+    emoji.style.setProperty('--x', `${x}px`);
+    emoji.style.setProperty('--y', `${y}px`);
+    emoji.style.setProperty('--rotate', `${rotate}deg`);
+
+    fotoWrapper.appendChild(emoji);
+
+    emoji.addEventListener('animationend', () => {
+      emoji.remove();
+    }, {once:true});
+
+  }
+
+}
+
+// Klik atau sentuh foto
+fotoHana.addEventListener('click', ketawakanHana);
+
+// Dukungan keyboard Enter dan Space
+fotoHana.addEventListener('keydown', event => {
+
+  if(event.key === 'Enter' || event.key === ' '){
+
+    event.preventDefault();
+    ketawakanHana();
+
+  }
+
 });
 
-document.getElementById('againBtn').addEventListener('click',celebrate);
+/* =================================
+   BUKA KEJUTAN ULANG TAHUN
+================================= */
+
+document.getElementById('openBtn').addEventListener('click', () => {
+
+  document.getElementById('intro').classList.add('hidden');
+
+  document.getElementById('message').classList.add('show');
+
+  celebrate();
+
+});
+
+/* =================================
+   RAYAKAN LAGI
+================================= */
+
+document.getElementById('againBtn').addEventListener(
+  'click',
+  celebrate
+);
 </script>
+
 </body>
 </html>
