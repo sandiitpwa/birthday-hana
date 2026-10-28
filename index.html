@@ -311,6 +311,30 @@ footer{
 
 <canvas id="confetti" aria-hidden="true"></canvas>
 
+
+<!-- PEMUTAR MUSIK ULANG TAHUN -->
+<audio id="birthdayMusic" loop preload="auto">
+  <source src="music/The_Cloves_and_The_Tobacco_-_Biarkan_Berlari.mp3" type="audio/mpeg">
+</audio>
+
+<button
+  id="musicBtn"
+  type="button"
+  style="
+    position:fixed;
+    right:16px;
+    bottom:16px;
+    width:auto;
+    padding:12px 16px;
+    border-radius:50px;
+    z-index:20;
+  "
+  aria-pressed="false"
+>
+  🎵 PLAY MUSIC
+</button>
+
+
 <main class="card">
 
   <div class="badge">
@@ -654,6 +678,65 @@ document.getElementById('againBtn').addEventListener(
   'click',
   celebrate
 );
+
+
+
+/* =================================
+   MUSIK ULANG TAHUN HANA
+================================= */
+
+const birthdayMusic = document.getElementById('birthdayMusic');
+const musicBtn = document.getElementById('musicBtn');
+
+async function playMusic(){
+
+  try{
+
+    await birthdayMusic.play();
+
+    musicBtn.textContent = '⏸️ PAUSE MUSIC';
+    musicBtn.setAttribute('aria-pressed', 'true');
+
+  }catch(error){
+
+    musicBtn.textContent = '🎵 PLAY MUSIC';
+
+    console.log('Musik belum bisa diputar:', error);
+
+  }
+
+}
+
+function pauseMusic(){
+
+  birthdayMusic.pause();
+
+  musicBtn.textContent = '🎵 PLAY MUSIC';
+  musicBtn.setAttribute('aria-pressed', 'false');
+
+}
+
+musicBtn.addEventListener('click', async () => {
+
+  if(birthdayMusic.paused){
+
+    await playMusic();
+
+  }else{
+
+    pauseMusic();
+
+  }
+
+});
+
+// Musik mulai ketika kejutan dibuka
+document.getElementById('openBtn').addEventListener('click', () => {
+  playMusic();
+});
+
+
+
 </script>
 
 </body>
