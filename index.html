@@ -694,12 +694,12 @@ async function playMusic(){
 
     await birthdayMusic.play();
 
-    musicBtn.textContent = '⏸️ PAUSE MUSIC';
+    musicBtn.textContent = '⏸️';
     musicBtn.setAttribute('aria-pressed', 'true');
 
   }catch(error){
 
-    musicBtn.textContent = '🎵 PLAY MUSIC';
+    musicBtn.textContent = '🎵';
 
     console.log('Musik belum bisa diputar:', error);
 
@@ -711,7 +711,7 @@ function pauseMusic(){
 
   birthdayMusic.pause();
 
-  musicBtn.textContent = '🎵 PLAY MUSIC';
+  musicBtn.textContent = '🎵';
   musicBtn.setAttribute('aria-pressed', 'false');
 
 }
