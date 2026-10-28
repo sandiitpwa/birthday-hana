@@ -688,54 +688,54 @@ document.getElementById('againBtn').addEventListener(
 const birthdayMusic = document.getElementById('birthdayMusic');
 const musicBtn = document.getElementById('musicBtn');
 
-async function playMusic(){
-
-  try{
+async function playMusic() {
+  try {
+    birthdayMusic.volume = 0.8;
 
     await birthdayMusic.play();
 
     musicBtn.textContent = '⏸️';
     musicBtn.setAttribute('aria-pressed', 'true');
 
-  }catch(error){
-
+    console.log('Musik berhasil diputar.');
+  } catch (error) {
     musicBtn.textContent = '🎵';
+    musicBtn.setAttribute('aria-pressed', 'false');
 
-    console.log('Musik belum bisa diputar:', error);
+    console.error('Gagal memutar musik:', error.name, error.message);
 
+    if (error.name === 'NotAllowedError') {
+      alert('Browser memblokir pemutaran musik. Silakan klik tombol musik 🎵.');
+    } else if (
+      error.name === 'NotSupportedError' ||
+      error.name === 'EncodingError'
+    ) {
+      alert('File musik tidak didukung atau format audionya bermasalah.');
+    } else {
+      alert('Musik gagal diputar. Periksa nama file dan folder musik di GitHub.');
+    }
   }
-
 }
 
-function pauseMusic(){
-
+function pauseMusic() {
   birthdayMusic.pause();
 
   musicBtn.textContent = '🎵';
   musicBtn.setAttribute('aria-pressed', 'false');
-
 }
 
 musicBtn.addEventListener('click', async () => {
-
-  if(birthdayMusic.paused){
-
+  if (birthdayMusic.paused) {
     await playMusic();
-
-  }else{
-
+  } else {
     pauseMusic();
-
   }
-
 });
 
 // Musik mulai ketika kejutan dibuka
 document.getElementById('openBtn').addEventListener('click', () => {
   playMusic();
 });
-
-
 
 </script>
 
