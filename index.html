@@ -557,18 +557,18 @@ function celebrate(){
   draw();
 }
 
+
 /* =================================
-   EFEK EMOJI KETAWA PADA FOTO HANA
+   EFEK EMOJI KETAWA & LOVE
 ================================= */
 
 const fotoHana = document.getElementById('fotoHana');
 const fotoWrapper = document.querySelector('.foto-wrapper');
 
-function ketawakanHana(){
+let jumlahKlikFoto = 0;
 
-  const emojis = ['😂', '🤣', '😆', '😹', '🤭'];
+function munculkanEmoji(daftarEmoji){
 
-  // Delapan emoji setiap kali foto diklik
   for(let i = 0; i < 8; i++){
 
     const emoji = document.createElement('span');
@@ -576,7 +576,7 @@ function ketawakanHana(){
     emoji.className = 'emoji-ketawa';
 
     emoji.textContent =
-      emojis[Math.floor(Math.random() * emojis.length)];
+      daftarEmoji[Math.floor(Math.random() * daftarEmoji.length)];
 
     // Sebaran emoji ke berbagai arah
     const x = (Math.random() - .5) * 240;
@@ -589,9 +589,28 @@ function ketawakanHana(){
 
     fotoWrapper.appendChild(emoji);
 
+    // Hapus emoji setelah animasi selesai
     emoji.addEventListener('animationend', () => {
       emoji.remove();
     }, {once:true});
+
+  }
+
+}
+
+function ketawakanHana(){
+
+  jumlahKlikFoto++;
+
+  if(jumlahKlikFoto % 2 === 1){
+
+    // Klik ganjil: emoji ketawa
+    munculkanEmoji(['😂', '🤣', '😆', '😹', '🤭']);
+
+  }else{
+
+    // Klik genap: emoji love
+    munculkanEmoji(['❤️', '😍', '🥰', '💕', '💖']);
 
   }
 
@@ -611,6 +630,7 @@ fotoHana.addEventListener('keydown', event => {
   }
 
 });
+
 
 /* =================================
    BUKA KEJUTAN ULANG TAHUN
